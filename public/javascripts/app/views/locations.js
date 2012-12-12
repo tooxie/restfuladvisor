@@ -40,6 +40,8 @@ radvisor.LocationsView = Backbone.View.extend({
             name: $region.children("option:selected").data("name"),
             img: $country.children("option:selected").data("img")
         }
+        //there has to be a cleaner way than to access the first element...
+        var sortMethod = $("#sortSelect").children("option:selected")[0].value;
         var locationStr = JSON.stringify(location);
         $.cookie('ra_location', locationStr);
 
@@ -51,8 +53,19 @@ radvisor.LocationsView = Backbone.View.extend({
         radvisor.bus.trigger('reset:cache');
         localStorage.clear(); //clear all cache in localStorage
 
-        radvisor.router.navigate("",  {trigger: true});
-        $.mobile.showPageLoadingMsg();
+        // GeoLoco
+        var me = this;
+        navigator.geolocation.getCurrentPosition(function(position) {
+            latlng = position.coords.latitude + ',' + position.coords.longitude;
+            $.cookie('ra_sorting', sortMethod + ':' + latlng);
+            radvisor.router.navigate('/',  {trigger: true});
+            $.mobile.showPageLoadingMsg();
+        }, function(GeoPositionError){
+            $.cookie('ra_sorting', null);
+            radvisor.router.navigate('/',  {trigger: true});
+            $.mobile.showPageLoadingMsg();
+        });
+
     },
 
     render: function(country) {
@@ -66,7 +79,8 @@ radvisor.LocationsView = Backbone.View.extend({
             currentCountry: currentCountry,
             currentRegion: currentRegion,
             countryRegions: countryRegions,
-            regions: allRegions
+            regions: allRegions,
+            sorting: this.SORTING
         });
         $content = this.$el.find("[data-role=content]");
         $content.html(tmpHtml);
@@ -74,5 +88,10 @@ radvisor.LocationsView = Backbone.View.extend({
         // $.mobile.initializePage();
         $content.trigger('create'); //jqueryMobile init
         this.delegateEvents();
+    },
+
+    SORTING: {
+        DISTANCE: 'geo',
+        POPULARITY: 'pop'
     }
 });

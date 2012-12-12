@@ -33,6 +33,19 @@
         {% }); %}
     </select>
 </div>
+<div class="ui-grid-a oneline">
+    <div class="ui-block-a">
+        <label>Sort by:</label>
+    </div>
+    <select class="ui-block-b" id="sortSelect">
+        <option value="{{sorting.DISTANCE}}">
+            Nearest to me
+        </option>
+        <option value="{{sorting.POPULARITY}}">
+            Most popular
+        </option>
+    </select>
+</div>
 
 <fieldset class="ui-grid-a">
     <div class="ui-block-a">

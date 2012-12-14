@@ -6,18 +6,18 @@
     "start": "node app"
   },
   "dependencies": {
+      "cookies": "*",
       "express": ">= 3",
+      "googlemaps": "*",
+      "handlebars": "*",
       "jquery": "*",
       "jsdom": "*",
-      "underscore": "*",
       "less": "*",
-      "cookies": "*",
       "mongodb": ">= 0.9.6-7",
       "mongojs": "*",
       "node-inspector": "*",
       "uglify-js": "*",
-      "handlebars": "*",
-      "googlemaps": "*"
+      "underscore": "*"
   },
   "engines": {
       "node": ">= 0.8",

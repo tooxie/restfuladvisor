@@ -77,9 +77,9 @@ var AppRouter = Backbone.Router.extend({
         });
     },
 
-    map: function (name){
+    map: function (date){
         var me = this;
-        this.mapView.render();
+        this.mapView.render(date);
         me.changePage(this.mapView);
     },
 
